@@ -1,7 +1,8 @@
 package com.tma.gbst.syn.piexcercise.calculation;
 
 import java.util.concurrent.ExecutionException;
-import org.tma.gbst.syn.piexcercise.formular.Formular;
+
+import com.tma.gbst.syn.piexcercise.formular.Formular;
 
 /**
  * 

@@ -3,10 +3,9 @@ package com.tma.gbst.syn.piexcercise.app;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-import org.tma.gbst.syn.piexcercise.formular.Formular;
-import org.tma.gbst.syn.piexcercise.formular.LeibenizFormula;
-
 import com.tma.gbst.syn.piexcercise.calculation.PiCalculation;
+import com.tma.gbst.syn.piexcercise.formular.Formular;
+import com.tma.gbst.syn.piexcercise.formular.LeibenizFormula;
 
 /**
  * <h1>Pi Calculation Program</h1>

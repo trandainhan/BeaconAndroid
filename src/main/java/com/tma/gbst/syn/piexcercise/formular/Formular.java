@@ -1,4 +1,4 @@
-package org.tma.gbst.syn.piexcercise.formular;
+package com.tma.gbst.syn.piexcercise.formular;
 
 public interface Formular {
 	
