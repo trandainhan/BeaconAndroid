@@ -5,11 +5,15 @@ import java.util.concurrent.ExecutionException;
 
 import com.tma.gbst.syn.piexcercise.calculation.PiCalculation;
 import com.tma.gbst.syn.piexcercise.formular.Formular;
-import com.tma.gbst.syn.piexcercise.formular.LeibenizFormula;
+import com.tma.gbst.syn.piexcercise.formular.LeibenizFormular;
 
 /**
  * <h1>Pi Calculation Program</h1>
  * This program was created to calculate the approximate pi number
+ * 
+ * Provide user calculate Pi number as much precise as they want the depend on the time 
+ * program run, when this program start to calculate, it also give an option for user stop
+ * calculating at any time by pressing enter key to stop
  * 
  * @author tdainhan
  * @version 1.0
@@ -20,8 +24,11 @@ public class App
 {
 	
 	/**
-	 * this is main method to calculate pi number
-	 * more formally, 
+	 * This is main method to calculate pi number
+	 * 
+	 * <tt>PiCalculation</tt> was used to calculate, by setting it's formular. Program start
+	 * calculating Pi in another thread. By pressing enter key the program will stop and
+	 * getting the result
 	 * 
 	 * @param args
 	 * @return nothing
@@ -36,7 +43,7 @@ public class App
     	/**
     	 * Define amd set formular to use
     	 */
-    	Formular formular = new LeibenizFormula();
+    	Formular formular = new LeibenizFormular();
     	piCalculation.setFormular(formular);
     	
     	System.out.println("The pi number was calculed by: " + formular.getFormulaName());
@@ -46,13 +53,14 @@ public class App
     	 */
     	piCalculation.startCalculate();
     	
-		System.out.print("Press any key to stop calculate, the approximation of pi will depend on thi ...");
+    	
+		System.out.print("Press enter to stop calculate, the approximation of pi will depend on thi ...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        scanner.close();
+        scanner.close();        
+        
         
         Double result = 0.0;
-        
         /**
          * Stop calculate number to get the result if user press any key...
          */

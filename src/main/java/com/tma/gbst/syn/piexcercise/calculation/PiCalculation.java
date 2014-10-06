@@ -15,14 +15,27 @@ public class PiCalculation extends Thread{
 	
 	public PiCalculation() {}
 	
-	public PiCalculation(Formular formula){
-		this.formular = formula;
+	/**
+	 * Construct <tt>PiCalculation</tt> with a specific formular
+	 * 
+	 * @param formular  a specific formular 
+	 */
+	public PiCalculation(Formular formular){
+		this.formular = formular;
 	}
 	
+	/**
+	 * set formular for the calcultion
+	 * 
+	 * @param formular  
+	 */
 	public void setFormular(Formular formular){
 		this.formular = formular;
 	}
 	
+	/**
+	 * Using thread to start to calculate pi number
+	 */
 	public void startCalculate(){
 		
 		new Thread(new Runnable() {
@@ -35,7 +48,7 @@ public class PiCalculation extends Thread{
 
 
 	public Double stopCalculate() throws InterruptedException, ExecutionException{
-		formular.stopCaculate();
+		formular.stopCalculate();
 		
 		return formular.getResult();
 	}
