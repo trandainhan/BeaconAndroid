@@ -1,5 +1,7 @@
 package com.tma.gbst.syn.piexcercise.formular;
 
+import java.util.Scanner;
+
 /**
  * This  class define the leibeniz formular
  * 
@@ -14,11 +16,17 @@ public class LeibenizFormular implements Formular {
 	private volatile boolean isStop = false;
 	
 	private double result;
+	
+	private int count;
 
 	/**
 	 * Construct a Leibeniz Formula
 	 */
 	public LeibenizFormular(){};
+	
+	public LeibenizFormular(int count){
+		this.count = count;
+	}
 
 	/**
 	 * Set flag to determine the state to stop calculate
@@ -28,16 +36,23 @@ public class LeibenizFormular implements Formular {
 	public void setStop(boolean isStop) {
 		this.isStop = isStop;
 	}
+	
+	/**
+	 * 
+	 * @param count the number of loop
+	 */
+	public void setCount(int count){
+		this.count = count;
+	}
 
 	/**
 	 * Start to calculate pi number follow it's formular
 	 */
 	public void startCalculate() {
 		
-        int i = 0;
-		while (!isStop){
+		for (int i = 0; i < count; i++){
 			result +=  Math.pow(-1, i)/(2*i + 1);
-			i++;
+			if (isStop) break;
 		}
 	}
 	
@@ -59,7 +74,7 @@ public class LeibenizFormular implements Formular {
 	/**
 	 * Get formular name
 	 */
-	public String getFormulaName(){
+	public String getFormularName(){
 		return NAME;
 	}
 

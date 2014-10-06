@@ -44,9 +44,11 @@ public class App
     	 * Define amd set formular to use
     	 */
     	Formular formular = new LeibenizFormular();
+		System.out.println("Using " + formular.getFormularName() + " to calculate the approximate Pi number" );
+
     	piCalculation.setFormular(formular);
     	
-    	System.out.println("The pi number was calculed by: " + formular.getFormulaName());
+    	System.out.println("The pi number was calculed by: " + formular.getFormularName());
     	
     	/**
     	 * Start calculate the pi number
@@ -54,7 +56,7 @@ public class App
     	piCalculation.startCalculate();
     	
     	
-		System.out.print("Press enter to stop calculate, the approximation of pi will depend on thi ...");
+		System.out.print("Press enter to stop calculate if you don't want to wait more, the approximation of pi will depend on this ...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         scanner.close();        

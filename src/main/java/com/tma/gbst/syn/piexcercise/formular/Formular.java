@@ -7,7 +7,7 @@ public interface Formular {
 	 * 
 	 * @return string  the name of formular
 	 */
-	public String getFormulaName();
+	public String getFormularName();
 	
 	/**
 	 * Starting to calculate pi number by this formular

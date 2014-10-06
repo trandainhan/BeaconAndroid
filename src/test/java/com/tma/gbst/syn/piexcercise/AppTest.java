@@ -1,4 +1,4 @@
-package org.tma.gbst.syn.java_entry_code;
+package com.tma.gbst.syn.piexcercise;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
