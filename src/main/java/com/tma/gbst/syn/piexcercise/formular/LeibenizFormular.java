@@ -13,16 +13,19 @@ public class LeibenizFormular implements Formular {
 	
 	private static final String NAME = "Leibeniz Formular";
 	
-	private volatile boolean isStop = false;
+	private volatile boolean isStop;
 	
 	private double result;
 	
-	private int count;
+	private long count;
 
 	/**
 	 * Construct a Leibeniz Formula
 	 */
-	public LeibenizFormular(){};
+	public LeibenizFormular(){
+		result = 0.0;
+		isStop = false;
+	};
 	
 	public LeibenizFormular(int count){
 		this.count = count;
@@ -49,34 +52,37 @@ public class LeibenizFormular implements Formular {
 	 * Start to calculate pi number follow it's formular
 	 */
 	public double startCalculate() {
-		
-		getCount();
-		
-		for (int i = 0; i < count; i++){
-			result +=  Math.pow(-1, i)/(2*i + 1);
+		double denominator = 1;
+	 
+		for (int x = 0; x < count; x++) {
+
+			if (x % 2 == 0) {
+				result = result + (1 / denominator);
+			} else {
+				result = result - (1 / denominator);
+			}
+			denominator = denominator + 2;
 			if (isStop) break;
 		}
 		
-		return result;		
+		return result;
 	}
 	
 	/**
 	 * get the number of loop from user 
 	 */
-	private void getCount(){
+	public void getInput(Scanner scanner){
 		
-		Scanner scanner = new Scanner(System.in);
 		while(true){
 			System.out.print("Enter the number of loop, the approximate of Pi will depend on this: ");
 			String count = scanner.next();
 			try {
-				this.count = Integer.parseInt(count);
+				this.count = Long.parseLong(count);
 				break;
 			} catch (Exception e) {
 				System.out.println("The value is invalid, try again.");
 			}
 		}
-		scanner.close();
 	}
 	
 	/**

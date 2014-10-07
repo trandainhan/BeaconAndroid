@@ -34,46 +34,112 @@ public class App {
 	 */
 	public static void main(String[] args) {
 
-		System.out
-				.println("This program is used to calculate approximate pi number.");
+		System.out.println("This program is used to calculate approximate pi number.");
 
+		
+		//Define global scanner
+		Scanner scanner = new Scanner(System.in);
+		
+		
 		PiCalculation piCalculation = new PiCalculation();
 
-		/**
-		 * Define amd set formular to use
+		/*
+		 * Define and set formular to use
 		 */
 		Formular formular = new LeibenizFormular();
-		System.out.println("Using " + formular.getFormularName()
-				+ " to calculate the approximate Pi number");
+		System.out.println("Using " + formular.getFormularName() + " to calculate the approximate Pi number");
+		// get stop input for formular
+		formular.getInput(scanner);
 
+		// Choosing formular for calculation
 		piCalculation.setFormular(formular);
 
 		System.out.println("The pi number was calculed by: "
 				+ formular.getFormularName());
+		System.out.println("--------------------------");
+		System.out.println("If you wait too long to get result. Press enter to stop calculate, other key will get current value");
 
-		/**
+		/*
 		 * Start calculate the pi number
 		 */
-		Thread t = piCalculation.startCalculate();
+		Thread threadCalculatePi = piCalculation.startCalculate();
 		
-		System.out.print("Press enter to stop calculate if you don't want to wait more, the approximation of pi will depend on this ...");
-		Scanner scanner = new Scanner(System.in);
-		scanner.nextLine();
-		scanner.close();
-
-		Double result = 0.0;
-		/**
-		 * Stop calculate number to get the result if user press any key...
+		/*
+		 * Show result of current Thread
 		 */
-		try {
-			result = piCalculation.stopCalculate();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
+		ShowResultThread showResultThread = new ShowResultThread(piCalculation, threadCalculatePi);
+		showResultThread.start();
+		
+		
+		/*
+		 * Wait user press enter to pause or stop calculate
+		 */
+		scanner = new Scanner(System.in);	
+		decideStopRunning(scanner, piCalculation, threadCalculatePi);
+		
+		scanner.close();
+		
 
-		System.out.printf("The approximation of Pi: %.20f", result);
 	}
 
+	/**
+	 * Getting user input and allow helping us decide when to stop calculate
+	 * 
+	 * if user press enter stop calculate otherwise, it will print the current value of pi that was calculated
+	 * @param scanner  a scanner help to get input from user
+	 * @param piCalculation  
+	 * @param t
+	 */
+	private static void decideStopRunning(Scanner scanner, PiCalculation piCalculation, Thread t) {
+		String line = null;
+		while(true){
+			if (t.isAlive()){
+				line = scanner.nextLine();
+				if (line.isEmpty()){
+					piCalculation.stopCalculate();
+					break;
+				}
+			} else {
+				break;
+			}
+
+		}
+	}
+
+}
+
+/**
+ * Automatically print out the pi value in another thread, so that do not block UI
+ * @author tdainhan
+ *
+ */
+class ShowResultThread extends Thread{
+	
+	private PiCalculation piCalculation;
+	private volatile Thread threadCalculatePi;
+	
+	public ShowResultThread(PiCalculation piCalculation, Thread threadCalculatePi){
+		this.piCalculation = piCalculation;
+		this.threadCalculatePi = threadCalculatePi;
+	}
+	
+	public void run(){
+		while(true){
+			if (threadCalculatePi.isAlive()){
+				System.out.printf("Current Pi value: %.16f \n", piCalculation.getResult());
+			} else {
+				System.out.printf("Final Pi value: %.16f \n", piCalculation.getResult());
+				break;
+			}
+			try {
+				Thread.sleep(2500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("----------End------------");
+		
+	}
+	
 }

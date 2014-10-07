@@ -1,5 +1,7 @@
 package com.tma.gbst.syn.piexcercise.formular;
 
+import java.util.Scanner;
+
 public interface Formular {
 	
 	/**
@@ -8,6 +10,11 @@ public interface Formular {
 	 * @return string  the name of formular
 	 */
 	public String getFormularName();
+	
+	/**
+	 * get the point to help formular calculate
+	 */
+	public void getInput(Scanner scanner);
 	
 	/**
 	 * Starting to calculate pi number by this formular
