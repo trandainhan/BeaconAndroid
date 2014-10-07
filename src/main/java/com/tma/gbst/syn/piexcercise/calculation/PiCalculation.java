@@ -36,20 +36,24 @@ public class PiCalculation extends Thread{
 	/**
 	 * Using thread to start to calculate pi number
 	 */
-	public void startCalculate(){
+	public Thread startCalculate(){
 		
-		new Thread(new Runnable() {
+		Thread t = new Thread(new Runnable() {
 			public void run() {
 				formular.startCalculate();
 			}
-		}).start();
+		});
 		
+		t.start();
+		return t;
 	}
 
 
-	public Double stopCalculate() throws InterruptedException, ExecutionException{
-		formular.stopCalculate();
-		
+	public double stopCalculate() throws InterruptedException, ExecutionException{
+		return formular.stopCalculate();
+	}
+	
+	public double getResult(){
 		return formular.getResult();
 	}
 

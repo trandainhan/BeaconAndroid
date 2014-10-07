@@ -48,19 +48,43 @@ public class LeibenizFormular implements Formular {
 	/**
 	 * Start to calculate pi number follow it's formular
 	 */
-	public void startCalculate() {
+	public double startCalculate() {
+		
+		getCount();
 		
 		for (int i = 0; i < count; i++){
 			result +=  Math.pow(-1, i)/(2*i + 1);
 			if (isStop) break;
 		}
+		
+		return result;		
+	}
+	
+	/**
+	 * get the number of loop from user 
+	 */
+	private void getCount(){
+		
+		Scanner scanner = new Scanner(System.in);
+		while(true){
+			System.out.print("Enter the number of loop, the approximate of Pi will depend on this: ");
+			String count = scanner.next();
+			try {
+				this.count = Integer.parseInt(count);
+				break;
+			} catch (Exception e) {
+				System.out.println("The value is invalid, try again.");
+			}
+		}
+		scanner.close();
 	}
 	
 	/**
 	 * Stop to calculate pi number by this formular
 	 */
-	public void stopCalculate() {
+	public double stopCalculate() {
 		isStop = true;
+		return getResult();
 	}
 	
 	/**

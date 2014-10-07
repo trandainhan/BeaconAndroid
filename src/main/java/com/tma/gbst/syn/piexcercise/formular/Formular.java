@@ -12,12 +12,12 @@ public interface Formular {
 	/**
 	 * Starting to calculate pi number by this formular
 	 */
-	public void startCalculate();
+	public double startCalculate();
 	
 	/**
 	 * Stop calculate pi number
 	 */
-	public void stopCalculate();
+	public double stopCalculate();
 	
 	/**
 	 * Return the result of pi number after calculate
