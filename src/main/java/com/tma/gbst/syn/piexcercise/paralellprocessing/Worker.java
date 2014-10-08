@@ -3,8 +3,10 @@ package com.tma.gbst.syn.piexcercise.paralellprocessing;
 public interface Worker extends Runnable {
 	
 	interface CallBack{
-		void call(double result);
+		void call(int id, double result);
 	}
+	
+	public void setIdentifier(int id);
 	
 	public void setCallback(CallBack callBack);
 	
@@ -13,5 +15,5 @@ public interface Worker extends Runnable {
 	public void setEnd(long end);
 	
 	public double work(long begin, long end);
-
+	
 }

@@ -2,6 +2,7 @@ package com.tma.gbst.syn.piexcercise.paralellprocessing;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.tma.gbst.syn.piexcercise.paralellprocessing.Worker.CallBack;
 
@@ -15,7 +16,7 @@ public class Master implements CallBack {
 	int slice;
 	int nThreads;
 	
-	double result;
+	double results[];
 	
 	public Master(){}
 	
@@ -43,7 +44,11 @@ public class Master implements CallBack {
 	}
 	
 	public double getResult(){
-		return result*4;
+		double t = 0.0;
+		for (int i = 0; i < results.length; i++){
+			t += results[i];
+		}
+		return t;
 	}
 
 	public void processing(){
@@ -52,13 +57,15 @@ public class Master implements CallBack {
 		executors = Executors.newFixedThreadPool(nThreads);
 		
 		long segment = count/slice;
+		results = new double[slice];
+		
 		long begin;
 		long end;
-		for (long i = 0; i < segment; i++){
+		for (int i = 0; i < segment; i++){
 			begin = i*slice + 1;
 			end = (i + 1)*slice;
 			try {
-				submitWorker(executors, begin, end);
+				submitWorker(i, executors, begin, end);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -72,11 +79,12 @@ public class Master implements CallBack {
 		executors.shutdown();
 	}
 
-	private void submitWorker(ExecutorService executors, long begin, long end)
+	private void submitWorker(int id, ExecutorService executors, long begin, long end)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
 		Worker worker;
 		worker = (Worker) Class.forName(kindOfWorker).newInstance();
+		worker.setIdentifier(id);
 		worker.setBegin(begin);
 		worker.setEnd(end);
 		worker.setCallback(this);
@@ -85,12 +93,15 @@ public class Master implements CallBack {
 	
 	public void shutdown(){
 		executors.shutdownNow();
+		try {
+			executors.awaitTermination(1, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void call(double value) {
-		synchronized (this) {
-			result += value;
-		}
+	public void call(int id, double value) {
+		results[id] += value;
 	}
 	
 }

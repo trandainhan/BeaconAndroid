@@ -4,16 +4,23 @@ import com.tma.gbst.syn.piexcercise.paralellprocessing.Worker;
 
 public class LeibenizWorker implements Worker   {
 	
+	private int id;
+	
 	private CallBack callback;
 	
 	private long begin;
 	private long end;
+	
 	
 	public LeibenizWorker(){};
 	
 	public LeibenizWorker(long begin, long end){
 		this.begin = begin;
 		this.end = end;
+	}
+	
+	public void setIdentifier(int id){
+		this.id = id;
 	}
 
 	public void setBegin(long begin) {
@@ -49,6 +56,10 @@ public class LeibenizWorker implements Worker   {
 
 	public void run() {
 		double result = work(begin, end);
-		callback.call(result);
+		if (Thread.currentThread().isInterrupted()){
+			callback.call(id, result);
+		} else {
+			callback.call(id, result);
+		}
 	}
 }

@@ -37,10 +37,13 @@ public class LeibenizFormular  implements Formular {
 	/**
 	 * get the number of loop from user 
 	 */
-	public void getInput(Scanner scanner){		
+	public void getInput(Scanner scanner){
+		String count;
+		String nThread;
+		String slice;
 		while(true){
 			System.out.print("Enter the number of loop, the approximate of Pi will depend on this: ");
-			String count = scanner.next();
+			count = scanner.next();
 			try {
 				this.master.setCount(Long.parseLong(count));
 				break;
@@ -50,7 +53,7 @@ public class LeibenizFormular  implements Formular {
 		}
 		while(true){
 			System.out.print("Enter the number of Thread you want to run stimunously: ");
-			String nThread = scanner.next();
+			nThread = scanner.next();
 			try {
 				this.master.setnThreads(Integer.parseInt(nThread)); 
 				break;
@@ -59,11 +62,15 @@ public class LeibenizFormular  implements Formular {
 			}
 		}
 		while(true){
-			System.out.print("Enter the number of Slice: ");
-			String slice = scanner.next();
+			System.out.print("Enter the number of Slice, it have to be larger than number of thread ");
+			slice = scanner.next();
 			try {
-				this.master.setSlice(Integer.parseInt(slice)); 
-				break;
+				if (Integer.parseInt(slice) >= Integer.parseInt(nThread)){
+					this.master.setSlice(Integer.parseInt(slice)); 
+					break;					
+				} else {
+					System.out.println("The value is invalid, try again.");
+				}
 			} catch (Exception e) {
 				System.out.println("The value is invalid, try again.");
 			}
@@ -83,7 +90,7 @@ public class LeibenizFormular  implements Formular {
 	 * it will return 0.0
 	 */
 	public double getResult(){
-		return master.getResult();
+		return (master.getResult() + 1) * 4;
 	}
 
 	/**
