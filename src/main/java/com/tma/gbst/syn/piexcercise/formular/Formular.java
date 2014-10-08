@@ -19,7 +19,7 @@ public interface Formular {
 	/**
 	 * Starting to calculate pi number by this formular
 	 */
-	public double startCalculate();
+	public void startCalculate();
 	
 	/**
 	 * Stop calculate pi number

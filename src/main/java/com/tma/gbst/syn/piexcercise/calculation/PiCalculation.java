@@ -38,18 +38,8 @@ public class PiCalculation extends Thread {
 	/**
 	 * Using thread to start to calculate pi number
 	 */
-	public Thread startCalculate() {
-		
-		Thread t = new Thread(new Runnable() {
-			
-			public void run() {
-				formular.startCalculate();
-			}
-		});
-		
-		t.start();
-		
-		return t;
+	public void startCalculate() {
+		formular.startCalculate();
 	}
 
 	public double stopCalculate() {

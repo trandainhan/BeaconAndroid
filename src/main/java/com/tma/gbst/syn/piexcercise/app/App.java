@@ -62,12 +62,12 @@ public class App {
 		/*
 		 * Start calculate the pi number
 		 */
-		Thread threadCalculatePi = piCalculation.startCalculate();
+		piCalculation.startCalculate();
 		
 		/*
 		 * Show result of current Thread
 		 */
-		ShowResultThread showResultThread = new ShowResultThread(piCalculation, threadCalculatePi);
+		ShowResultThread showResultThread = new ShowResultThread(piCalculation);
 		showResultThread.start();
 		
 		
@@ -75,7 +75,7 @@ public class App {
 		 * Wait user press enter to pause or stop calculate
 		 */
 		scanner = new Scanner(System.in);	
-		decideStopRunning(scanner, piCalculation, threadCalculatePi);
+		decideStopRunning(scanner, piCalculation);
 		
 		scanner.close();
 		
@@ -90,19 +90,14 @@ public class App {
 	 * @param piCalculation  
 	 * @param t
 	 */
-	private static void decideStopRunning(Scanner scanner, PiCalculation piCalculation, Thread t) {
+	private static void decideStopRunning(Scanner scanner, PiCalculation piCalculation) {
 		String line = null;
 		while(true){
-			if (t.isAlive()){
-				line = scanner.nextLine();
-				if (line.isEmpty()){
-					piCalculation.stopCalculate();
-					break;
-				}
-			} else {
+			line = scanner.nextLine();
+			if (line.isEmpty()){
+				System.out.println(piCalculation.stopCalculate());
 				break;
 			}
-
 		}
 	}
 
@@ -116,30 +111,20 @@ public class App {
 class ShowResultThread extends Thread{
 	
 	private PiCalculation piCalculation;
-	private volatile Thread threadCalculatePi;
-	
-	public ShowResultThread(PiCalculation piCalculation, Thread threadCalculatePi){
+
+	public ShowResultThread(PiCalculation piCalculation){
 		this.piCalculation = piCalculation;
-		this.threadCalculatePi = threadCalculatePi;
 	}
 	
 	public void run(){
 		while(true){
-			if (threadCalculatePi.isAlive()){
-				System.out.printf("Current Pi value: %.16f \n", piCalculation.getResult());
-			} else {
-				System.out.printf("Final Pi value: %.16f \n", piCalculation.getResult());
-				break;
-			}
+			System.out.printf("Current Pi value: %.16f \n", piCalculation.getResult());
 			try {
 				Thread.sleep(2500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("----------End------------");
-		
 	}
 	
 }

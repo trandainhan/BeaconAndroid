@@ -2,6 +2,8 @@ package com.tma.gbst.syn.piexcercise.formular;
 
 import java.util.Scanner;
 
+import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
+
 /**
  * This  class define the leibeniz formular
  * 
@@ -9,75 +11,58 @@ import java.util.Scanner;
  * @version 1.0
  * @since 10/9/2014
  */
-public class LeibenizFormular implements Formular {
+public class LeibenizFormular  implements Formular {
 	
 	private static final String NAME = "Leibeniz Formular";
+//	private static final String MY_WORKER = "LeibenizWorker";
 	
-	private volatile boolean isStop;
+	private Master master;
 	
-	private double result;
-	
-	private long count;
 
 	/**
 	 * Construct a Leibeniz Formula
 	 */
 	public LeibenizFormular(){
-		result = 0.0;
-		isStop = false;
+		master = new Master(LeibenizWorker.class.getName());
+		
 	};
-	
-	public LeibenizFormular(int count){
-		this.count = count;
-	}
-
-	/**
-	 * Set flag to determine the state to stop calculate
-	 * 
-	 * @param isStop  a flag to make the loop stop calculating the Pi number
-	 */
-	public void setStop(boolean isStop) {
-		this.isStop = isStop;
-	}
-	
-	/**
-	 * 
-	 * @param count the number of loop
-	 */
-	public void setCount(int count){
-		this.count = count;
-	}
 
 	/**
 	 * Start to calculate pi number follow it's formular
 	 */
-	public double startCalculate() {
-		double denominator = 1;
-	 
-		for (int x = 0; x < count; x++) {
-
-			if (x % 2 == 0) {
-				result = result + (1 / denominator);
-			} else {
-				result = result - (1 / denominator);
-			}
-			denominator = denominator + 2;
-			if (isStop) break;
-		}
-		
-		return result;
+	public void startCalculate() {
+		master.processing();
 	}
 	
 	/**
 	 * get the number of loop from user 
 	 */
-	public void getInput(Scanner scanner){
-		
+	public void getInput(Scanner scanner){		
 		while(true){
 			System.out.print("Enter the number of loop, the approximate of Pi will depend on this: ");
 			String count = scanner.next();
 			try {
-				this.count = Long.parseLong(count);
+				this.master.setCount(Long.parseLong(count));
+				break;
+			} catch (Exception e) {
+				System.out.println("The value is invalid, try again.");
+			}
+		}
+		while(true){
+			System.out.print("Enter the number of Thread you want to run stimunously: ");
+			String nThread = scanner.next();
+			try {
+				this.master.setnThreads(Integer.parseInt(nThread)); 
+				break;
+			} catch (Exception e) {
+				System.out.println("The value is invalid, try again.");
+			}
+		}
+		while(true){
+			System.out.print("Enter the number of Slice: ");
+			String slice = scanner.next();
+			try {
+				this.master.setSlice(Integer.parseInt(slice)); 
 				break;
 			} catch (Exception e) {
 				System.out.println("The value is invalid, try again.");
@@ -89,7 +74,7 @@ public class LeibenizFormular implements Formular {
 	 * Stop to calculate pi number by this formular
 	 */
 	public double stopCalculate() {
-		isStop = true;
+		master.shutdown();
 		return getResult();
 	}
 	
@@ -98,7 +83,7 @@ public class LeibenizFormular implements Formular {
 	 * it will return 0.0
 	 */
 	public double getResult(){
-		return result*4;
+		return master.getResult();
 	}
 
 	/**
