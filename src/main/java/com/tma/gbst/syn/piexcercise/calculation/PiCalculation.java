@@ -1,8 +1,7 @@
 package com.tma.gbst.syn.piexcercise.calculation;
 
-import java.util.concurrent.ExecutionException;
-
 import com.tma.gbst.syn.piexcercise.formular.Formular;
+import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
 
 /**
  * 
@@ -36,7 +35,7 @@ public class PiCalculation extends Thread {
 	}
 
 	/**
-	 * Using thread to start to calculate pi number
+	 * Using multi thread to start to calculate pi number
 	 */
 	public void startCalculate() {
 		formular.startCalculate();
@@ -44,9 +43,14 @@ public class PiCalculation extends Thread {
 
 	public double stopCalculate() {
 		return formular.stopCalculate();
+		
 	}
 
 	public double getResult(){
 		return formular.getResult();
+	}
+	
+	public Master getThreadManager(){
+		return formular.getMasterThread();
 	}
 }

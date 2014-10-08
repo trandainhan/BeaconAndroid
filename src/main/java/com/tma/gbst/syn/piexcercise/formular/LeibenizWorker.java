@@ -48,6 +48,8 @@ public class LeibenizWorker implements Worker   {
 				result = result - (1 / denominator);
 			}
 			denominator = denominator + 2;
+			
+			if (Thread.currentThread().isInterrupted()) break;
 		}
 		
 		return result;
@@ -56,10 +58,6 @@ public class LeibenizWorker implements Worker   {
 
 	public void run() {
 		double result = work(begin, end);
-		if (Thread.currentThread().isInterrupted()){
-			callback.call(id, result);
-		} else {
-			callback.call(id, result);
-		}
+		callback.call(id, result);
 	}
 }

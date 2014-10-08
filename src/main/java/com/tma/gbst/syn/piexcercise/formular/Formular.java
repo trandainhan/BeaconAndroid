@@ -1,6 +1,9 @@
 package com.tma.gbst.syn.piexcercise.formular;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
+
+import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
 
 public interface Formular {
 	
@@ -24,7 +27,7 @@ public interface Formular {
 	/**
 	 * Stop calculate pi number
 	 */
-	public double stopCalculate();
+	public BigDecimal stopCalculate();
 	
 	/**
 	 * Return the result of pi number after calculate
@@ -32,5 +35,11 @@ public interface Formular {
 	 * @return double  the result of pi 
 	 */
 	public double getResult();
+	
+	/**
+	 * Return the manager thread, that manage all thread 
+	 * @return  Master  the manage thread 
+	 */
+	public Master getMasterThread();
 	
 }

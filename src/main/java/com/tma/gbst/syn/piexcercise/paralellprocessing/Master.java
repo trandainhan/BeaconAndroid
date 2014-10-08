@@ -1,5 +1,7 @@
 package com.tma.gbst.syn.piexcercise.paralellprocessing;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -12,15 +14,16 @@ public class Master implements CallBack {
 	ExecutorService executors;
 	String kindOfWorker;
 	
-	long count;
+	BigInteger count;
 	int slice;
 	int nThreads;
 	
+	//array to result receive from worker;
 	double results[];
 	
 	public Master(){}
 	
-	public Master(int count, int slice, int nThreads, String kindOfWorker){
+	public Master(BigInteger count, int slice, int nThreads, String kindOfWorker){
 		this.count = count;
 		this.slice = slice;
 		this.nThreads = nThreads;
@@ -31,7 +34,7 @@ public class Master implements CallBack {
 		this.kindOfWorker = kindOfWorker;
 	}
 
-	public void setCount(long count) {
+	public void setCount(BigInteger count) {
 		this.count = count + 1;
 	}
 
@@ -40,11 +43,11 @@ public class Master implements CallBack {
 	}
 
 	public void setnThreads(int nThreads) {
-		this.nThreads = nThreads;                                                                                                                                                                   
+		this.nThreads = nThreads;
 	}
 	
-	public double getResult(){
-		double t = 0.0;
+	public BigDecimal getResult(){
+		BigDecimal t = new BigDecimal(0.0);
 		for (int i = 0; i < results.length; i++){
 			t += results[i];
 		}
@@ -52,20 +55,23 @@ public class Master implements CallBack {
 	}
 
 	public void processing(){
-		// devide into many slice then inject to worker
 		
+		results = new double[nThreads];
+		
+		// devide into many slice then inject to worker
 		executors = Executors.newFixedThreadPool(nThreads);
 		
-		long segment = count/slice;
-		results = new double[slice];
+		BigInteger segment = count/slice;
+		
 		
 		long begin;
 		long end;
+		int j = 0;
 		for (int i = 0; i < segment; i++){
-			begin = i*slice + 1;
-			end = (i + 1)*slice;
+			begin = i*slice;
+			end = (i + 1)*slice - 1;
 			try {
-				submitWorker(i, executors, begin, end);
+				submitWorker(j, executors, begin, end);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -73,10 +79,26 @@ public class Master implements CallBack {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			
+			j++;
+			if (j >= nThreads - 1) j = 0;
+		}
+		
+		if (count % slice != 0){
+			begin = slice * (count/slice);
+			end = count - 1;
+			try {
+				submitWorker(nThreads - 1, executors, begin, end);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		executors.shutdown();
+		
 	}
 
 	private void submitWorker(int id, ExecutorService executors, long begin, long end)
@@ -93,14 +115,13 @@ public class Master implements CallBack {
 	
 	public void shutdown(){
 		executors.shutdownNow();
-		try {
-			executors.awaitTermination(1, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	}
+	
+	public boolean isTerminated(){
+		return executors.isTerminated();
 	}
 
-	public void call(int id, double value) {
+	public void call(int id, double value){
 		results[id] += value;
 	}
 	
