@@ -1,7 +1,5 @@
 package com.tma.gbst.syn.piexcercise.paralellprocessing;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +12,7 @@ public class Master implements CallBack {
 	ExecutorService executors;
 	String kindOfWorker;
 	
-	BigInteger count;
+	long count;
 	int slice;
 	int nThreads;
 	
@@ -23,7 +21,7 @@ public class Master implements CallBack {
 	
 	public Master(){}
 	
-	public Master(BigInteger count, int slice, int nThreads, String kindOfWorker){
+	public Master(int count, int slice, int nThreads, String kindOfWorker){
 		this.count = count;
 		this.slice = slice;
 		this.nThreads = nThreads;
@@ -34,7 +32,7 @@ public class Master implements CallBack {
 		this.kindOfWorker = kindOfWorker;
 	}
 
-	public void setCount(BigInteger count) {
+	public void setCount(long count) {
 		this.count = count + 1;
 	}
 
@@ -46,8 +44,8 @@ public class Master implements CallBack {
 		this.nThreads = nThreads;
 	}
 	
-	public BigDecimal getResult(){
-		BigDecimal t = new BigDecimal(0.0);
+	public double getResult(){
+		double t = 0.0;
 		for (int i = 0; i < results.length; i++){
 			t += results[i];
 		}
@@ -61,43 +59,48 @@ public class Master implements CallBack {
 		// devide into many slice then inject to worker
 		executors = Executors.newFixedThreadPool(nThreads);
 		
-		BigInteger segment = count/slice;
-		
-		
-		long begin;
-		long end;
-		int j = 0;
-		for (int i = 0; i < segment; i++){
-			begin = i*slice;
-			end = (i + 1)*slice - 1;
-			try {
-				submitWorker(j, executors, begin, end);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+
+		new Thread(new Runnable() {
+			
+			public void run() {
+				long segment = count/slice;
+				
+				
+				long begin;
+				long end;
+				int j = 0;
+				for (int i = 0; i < segment; i++){
+					begin = i*slice;
+					end = (i + 1)*slice - 1;
+					try {
+						submitWorker(j, executors, begin, end);
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					j++;
+					if (j >= nThreads - 1) j = 0;
+				}
+				
+				if (count % slice != 0){
+					begin = slice * (count/slice);
+					end = count - 1;
+					try {
+						submitWorker(nThreads - 1, executors, begin, end);
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+				executors.shutdown();
 			}
-			j++;
-			if (j >= nThreads - 1) j = 0;
-		}
-		
-		if (count % slice != 0){
-			begin = slice * (count/slice);
-			end = count - 1;
-			try {
-				submitWorker(nThreads - 1, executors, begin, end);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		executors.shutdown();
+		}).start();
 		
 	}
 

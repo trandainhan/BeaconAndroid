@@ -1,6 +1,5 @@
 package com.tma.gbst.syn.piexcercise.formular;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
@@ -81,7 +80,7 @@ public class LeibenizFormular  implements Formular {
 	/**
 	 * Stop to calculate pi number by this formular
 	 */
-	public BigDecimal stopCalculate() {
+	public double stopCalculate() {
 		master.shutdown();
 		return getResult();
 	}
@@ -90,7 +89,7 @@ public class LeibenizFormular  implements Formular {
 	 * Get Pi number at current time, make sure you have start to calculate, otherwise
 	 * it will return 0.0
 	 */
-	public BigDecimal getResult(){
+	public double getResult(){
 		return master.getResult()* 4;
 	}
 

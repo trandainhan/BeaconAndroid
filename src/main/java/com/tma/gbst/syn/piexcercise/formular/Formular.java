@@ -1,6 +1,5 @@
 package com.tma.gbst.syn.piexcercise.formular;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
@@ -27,7 +26,7 @@ public interface Formular {
 	/**
 	 * Stop calculate pi number
 	 */
-	public BigDecimal stopCalculate();
+	public double stopCalculate();
 	
 	/**
 	 * Return the result of pi number after calculate

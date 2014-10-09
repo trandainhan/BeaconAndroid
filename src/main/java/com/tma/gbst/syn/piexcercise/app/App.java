@@ -82,7 +82,6 @@ public class App {
 		scanner = new Scanner(System.in);
 		decideStopRunning(scanner, piCalculation, startTime);
 		scanner.close();
-		
 
 	}
 
@@ -100,6 +99,12 @@ public class App {
 			if (!piCalculation.getThreadManager().isTerminated()){
 				line = scanner.nextLine();
 				if (line.isEmpty()){
+					try{
+						piCalculation.stopCalculate();
+					} catch (Exception e) {
+						System.out.println("The program has been shutdown intermedialy");
+						break;
+					}
 					break;
 				}					
 			} else {
@@ -131,16 +136,16 @@ class ShowResultThread extends Thread{
 		while(true){
 			if (!master.isTerminated()){
 				System.out.printf("Current Pi value: %.16f \n", piCalculation.getResult());
-				try {
-					Thread.sleep(2500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			} else {
 				System.out.printf("Final Pi value: %.16f \n", piCalculation.getResult());
 				long stopTime = System.currentTimeMillis();
 				System.out.println("Time taken: " + (stopTime - startTime));
 				break;
+			}
+			try {
+				Thread.sleep(2500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
