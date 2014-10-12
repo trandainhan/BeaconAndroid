@@ -55,9 +55,8 @@ public class LeibenizWorker implements Worker   {
 		return result;
 	};
 
-
-	public void run() {
-		double result = work(begin, end);
-		callback.call(id, result);
+	public Double call() throws Exception {
+		return work(begin, end);
+		
 	}
 }

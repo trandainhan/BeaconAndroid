@@ -1,6 +1,8 @@
 package com.tma.gbst.syn.piexcercise.paralellprocessing;
 
-public interface Worker extends Runnable {
+import java.util.concurrent.Callable;
+
+public interface Worker extends Callable<Double> {
 	
 	interface CallBack{
 		void call(int id, double result);
