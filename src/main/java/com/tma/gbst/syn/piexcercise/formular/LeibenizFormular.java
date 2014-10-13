@@ -17,7 +17,6 @@ public class LeibenizFormular  implements Formular {
 	
 	private Master master;
 	
-
 	/**
 	 * Construct a Leibeniz Formula
 	 */
@@ -33,7 +32,7 @@ public class LeibenizFormular  implements Formular {
 	}
 	
 	/**
-	 * get the number of loop from user 
+	 * get all parameter to calculate from user 
 	 */
 	public void getInput(Scanner scanner){
 		long count;
@@ -44,6 +43,7 @@ public class LeibenizFormular  implements Formular {
 			
 			try {
 				count = Long.parseLong(scanner.next());
+				if (count < 0) throw new Exception();
 				this.master.setCount(count);
 				break;
 			} catch (Exception e) {
@@ -51,9 +51,10 @@ public class LeibenizFormular  implements Formular {
 			}
 		}
 		while(true){
-			System.out.print("Enter the number of Thread you want to run stimunously: ");
+			System.out.print("Enter the number of Thread you want to run stimunously, should be larger than 1: ");
 			try {
 				nThread = Integer.parseInt(scanner.next());
+				if (nThread < 1) throw new Exception();
 				this.master.setnThreads((nThread)); 
 				break;
 			} catch (Exception e) {
@@ -61,16 +62,18 @@ public class LeibenizFormular  implements Formular {
 			}
 		}
 		while(true){
-			System.out.print("Enter the number of Slice, it have to be larger than number of thread ");
-			
+			System.out.print("Enter the number of Slice: ");
 			try {
 				slice = Integer.parseInt(scanner.next());
-				if (slice < count && slice >= nThread){
-					this.master.setSlice(slice); 
-					break;					
-				} else {
-					System.out.println("The value is invalid, try again.");
+				if (slice <= 0) throw new Exception();
+				if (slice < nThread){
+					slice = nThread;
 				}
+				if (count == 0){
+					slice = 1;
+				}
+				this.master.setSlice(slice);
+				break;
 			} catch (Exception e) {
 				System.out.println("The value is invalid, try again.");
 			}
@@ -100,6 +103,10 @@ public class LeibenizFormular  implements Formular {
 		return NAME;
 	}
 
+	/**
+	 * get the <tt>Master</tt> thread that manage to run the calculation
+	 * @return <tt>Master</tt>  a master thread that manage to run the calculation
+	 */
 	public Master getMasterThread() {
 		return master;
 	}

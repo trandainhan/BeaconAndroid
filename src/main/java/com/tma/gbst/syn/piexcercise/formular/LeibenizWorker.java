@@ -4,9 +4,7 @@ import com.tma.gbst.syn.piexcercise.paralellprocessing.Worker;
 
 public class LeibenizWorker implements Worker   {
 	
-	private int id;
-	
-	private CallBack callback;
+	public final String CLASS_NAME = this.getClass().getSimpleName();
 	
 	private long begin;
 	private long end;
@@ -18,10 +16,6 @@ public class LeibenizWorker implements Worker   {
 		this.begin = begin;
 		this.end = end;
 	}
-	
-	public void setIdentifier(int id){
-		this.id = id;
-	}
 
 	public void setBegin(long begin) {
 		this.begin = begin;
@@ -31,21 +25,17 @@ public class LeibenizWorker implements Worker   {
 		this.end = end;
 	}
 	
-	public void setCallback(CallBack callback) {
-		this.callback = callback;
-	}
-	
 	public double work(long begin, long end){
 		double result = 0.0;
 		
-		double denominator = 1 + 2*begin;
+		long denominator = 1 + 2*begin;
 		 
 		for (long i = begin; i <= end; i++) {
 
 			if (i % 2 == 0) {
-				result = result + (1 / denominator);
+				result = result + (1.0 / denominator);
 			} else {
-				result = result - (1 / denominator);
+				result = result - (1.0 / denominator);
 			}
 			denominator = denominator + 2;
 			

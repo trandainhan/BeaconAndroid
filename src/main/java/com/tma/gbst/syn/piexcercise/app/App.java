@@ -1,12 +1,10 @@
 package com.tma.gbst.syn.piexcercise.app;
 
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 import com.tma.gbst.syn.piexcercise.calculation.PiCalculation;
 import com.tma.gbst.syn.piexcercise.formular.Formular;
 import com.tma.gbst.syn.piexcercise.formular.LeibenizFormular;
-import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
 
 /**
  * <h1>Pi Calculation Program</h1> This program was created to calculate the
@@ -24,23 +22,42 @@ import com.tma.gbst.syn.piexcercise.paralellprocessing.Master;
 public class App {
 
 	/**
-	 * This is main method to calculate pi number
+	 * This is entry point to calculate pi number, calculate and decide whether or 
+	 * not continue calculating again
 	 * 
-	 * <tt>PiCalculation</tt> was used to calculate, by setting it's formular.
-	 * Program start calculating Pi in another thread. By pressing enter key the
-	 * program will stop and getting the result
 	 * 
 	 * @param args
 	 * @return nothing
 	 */
 	public static void main(String[] args) {
-
-		System.out.println("This program is used to calculate approximate pi number.");
-
 		
-		//Define global scanner
-		Scanner scanner = new Scanner(System.in);
+		while (true){
+			@SuppressWarnings("resource")
+			Scanner inputTool = new Scanner(System.in);
+			start(inputTool);
+			inputTool = new Scanner(System.in);
+			System.out.println("Press C key to continue calculate other key will stop program");
+			String line = inputTool.nextLine();
+			if (!line.equalsIgnoreCase("c")){
+				inputTool.close();
+				System.out.println("------Stop-----");
+				break;
+			}
+		}
 		
+
+	}
+
+	/**
+	 * 
+	 * <tt>PiCalculation</tt> was used to calculate, by setting it's formular.
+	 * Program start calculating Pi in another thread. By pressing enter key the
+	 * program will stop and getting the result
+	 * 
+	 * @param scanner  get input from user through scanner
+	 */
+	private static void start(Scanner scanner) {
+		System.out.println("This program is used to calculate approximate pi number.");	
 		
 		PiCalculation piCalculation = new PiCalculation();
 
@@ -57,7 +74,6 @@ public class App {
 
 		System.out.println("The pi number was calculed by: "
 				+ formular.getFormularName());
-		System.out.println("--------------------------");
 		System.out.println("If you wait too long to get result. Press enter to stop calculate");
 
 		/*
@@ -66,14 +82,9 @@ public class App {
 		long startTime = System.currentTimeMillis();
 		piCalculation.startCalculate();
 		
-		// get thread manager to top other thread anytime you want
-		Master threadManager = piCalculation.getThreadManager();
 		
-		
-		/*
-		 * Show result of current Thread
-		 */
-		ShowResultThread showResultThread = new ShowResultThread(piCalculation, threadManager, startTime);
+		// this help to show the result
+		ShowResultThread showResultThread = new ShowResultThread(piCalculation, startTime);
 		showResultThread.start();
 		
 		/*
@@ -81,8 +92,6 @@ public class App {
 		 */
 		scanner = new Scanner(System.in);
 		decideStopRunning(scanner, piCalculation, startTime);
-		scanner.close();
-
 	}
 
 	/**
@@ -99,14 +108,9 @@ public class App {
 			if (!piCalculation.getThreadManager().isTerminated()){
 				line = scanner.nextLine();
 				if (line.isEmpty()){
-					try{
-						piCalculation.stopCalculate();
-					} catch (Exception e) {
-						System.out.println("The program has been shutdown intermedialy");
-						break;
-					}
+					piCalculation.stopCalculate();
 					break;
-				}					
+				}				
 			} else {
 				break;
 			}
@@ -115,37 +119,33 @@ public class App {
 
 }
 
-/**
- * Automatically print out the pi value in another thread, so that do not block UI
- * @author tdainhan
- *
- */
+
 class ShowResultThread extends Thread{
 	
 	private PiCalculation piCalculation;
-	private Master master;
+	
 	private long startTime;
-
-	public ShowResultThread(PiCalculation piCalculation, Master master, long startTime){
+	
+	public ShowResultThread(PiCalculation piCalculation, long startTime){
 		this.piCalculation = piCalculation;
-		this.master = master;
 		this.startTime = startTime;
 	}
-	
-	public void run(){
-		while(true){
-			if (!master.isTerminated()){
-				System.out.printf("Current Pi value: %.16f \n", piCalculation.getResult());
-			} else {
-				System.out.printf("Final Pi value: %.16f \n", piCalculation.getResult());
+
+	public void run() {
+		while (true){
+			if (piCalculation.getThreadManager().isTerminated()){
+				System.out.println("\n Pi value: " + piCalculation.getResult());
 				long stopTime = System.currentTimeMillis();
 				System.out.println("Time taken: " + (stopTime - startTime));
+				System.out.println("Pleas press enter to continue program");
 				break;
-			}
-			try {
-				Thread.sleep(2500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} else {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					System.out.println(e.getMessage());
+				}
+				System.out.print(".");
 			}
 		}
 	}
