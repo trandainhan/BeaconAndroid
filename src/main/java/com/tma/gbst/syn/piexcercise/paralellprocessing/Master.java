@@ -2,9 +2,7 @@ package com.tma.gbst.syn.piexcercise.paralellprocessing;
 
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
@@ -22,8 +20,9 @@ public class Master{
 	int slice;
 	int nThreads;
 	
-	
+	// using scheduled thread pool executor to make sure all task execute in ordely
 	private volatile ScheduledThreadPoolExecutor executors;
+	
 	private String kindOfWorker;
 	
 	// The result stores here
