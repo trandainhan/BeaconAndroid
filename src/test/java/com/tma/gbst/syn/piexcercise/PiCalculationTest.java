@@ -10,17 +10,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.tma.gbst.syn.piexcercise.calculation.PiCalculation;
-import com.tma.gbst.syn.piexcercise.formular.LeibenizFormular;
+import com.tma.gbst.syn.piexcercise.formular.leibniz.LeibnizFormula;
 
 public class PiCalculationTest {
 	
-	static LeibenizFormular leibenizFormular;
+	static LeibnizFormula leibenizFormular;
 	static PiCalculation PiCalculation;
 	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		leibenizFormular = Mockito.mock(LeibenizFormular.class);
+		leibenizFormular = Mockito.mock(LeibnizFormula.class);
 		PiCalculation = new PiCalculation();
 		PiCalculation.setFormular(leibenizFormular);
 	}

@@ -1,8 +1,9 @@
-package com.tma.gbst.syn.piexcercise.formular;
+package com.tma.gbst.syn.piexcercise.formular.leibniz;
 
-import com.tma.gbst.syn.piexcercise.paralellprocessing.Worker;
+import com.tma.gbst.syn.piexcercise.formular.Worker;
 
-public class LeibenizWorker implements Worker   {
+
+public class LeibnizWorker implements Worker   {
 	
 	public final String CLASS_NAME = this.getClass().getSimpleName();
 	
@@ -10,9 +11,9 @@ public class LeibenizWorker implements Worker   {
 	private long end;
 	
 	
-	public LeibenizWorker(){};
+	private LeibnizWorker(){};
 	
-	public LeibenizWorker(long begin, long end){
+	public LeibnizWorker(long begin, long end){
 		this.begin = begin;
 		this.end = end;
 	}
@@ -38,8 +39,6 @@ public class LeibenizWorker implements Worker   {
 				result = result - (1.0 / denominator);
 			}
 			denominator = denominator + 2;
-			
-			if (Thread.currentThread().isInterrupted()) break;
 		}
 		
 		return result;
@@ -48,5 +47,10 @@ public class LeibenizWorker implements Worker   {
 	public Double call() throws Exception {
 		return work(begin, end);
 		
+	}
+
+	@Override
+	public Worker createWorker() {
+		return LeibnizWorker();
 	}
 }

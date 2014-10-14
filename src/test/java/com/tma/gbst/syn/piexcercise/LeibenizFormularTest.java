@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tma.gbst.syn.piexcercise.formular.LeibenizFormular;
+import com.tma.gbst.syn.piexcercise.formular.leibniz.LeibnizFormula;
 
 public class LeibenizFormularTest {
 	
-	LeibenizFormular leibenizFormular = new LeibenizFormular();
+	LeibnizFormula leibenizFormular = new LeibnizFormula();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -38,7 +38,7 @@ public class LeibenizFormularTest {
 		double result = 1.0 - 1.0/3;
 		System.out.println(result);
 		
-		Field field = LeibenizFormular.class.getDeclaredField("count");
+		Field field = LeibnizFormula.class.getDeclaredField("count");
 		field.setAccessible(true);
 		long a = 2;
 		field.set(leibenizFormular, a);
@@ -52,7 +52,7 @@ public class LeibenizFormularTest {
 
 	@Test
 	public void testStopCalculate() throws Exception {
-		Field field = LeibenizFormular.class.getDeclaredField("isStop");
+		Field field = LeibnizFormula.class.getDeclaredField("isStop");
 		field.setAccessible(true);
 		leibenizFormular.stopCalculate();
 		assertEquals("true", field.get(leibenizFormular).toString());
@@ -60,7 +60,7 @@ public class LeibenizFormularTest {
 
 	@Test
 	public void testGetResult() throws Exception {
-		Field field = LeibenizFormular.class.getDeclaredField("result");
+		Field field = LeibnizFormula.class.getDeclaredField("result");
 		field.setAccessible(true);
 		assertEquals(field.get(leibenizFormular), leibenizFormular.getResult());
 	}
