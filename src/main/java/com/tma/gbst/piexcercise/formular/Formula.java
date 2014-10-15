@@ -1,7 +1,5 @@
 package com.tma.gbst.piexcercise.formular;
 
-import java.util.Scanner;
-
 public interface Formula {
 	
 	/**
@@ -11,6 +9,10 @@ public interface Formula {
 	 */
 	public String getFormularName();
 
+	/**
+	 * 
+	 * @param parameters
+	 */
 	public void setParameters(String[] parameters);
 	
 	/**

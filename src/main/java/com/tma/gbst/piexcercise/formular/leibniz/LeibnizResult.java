@@ -3,6 +3,7 @@ package com.tma.gbst.piexcercise.formular.leibniz;
 import com.tma.gbst.piexcercise.formular.Result;
 
 public class LeibnizResult implements Result {
+	
 	long n;
 	double pi = 0;
 	

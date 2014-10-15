@@ -23,11 +23,11 @@ public class LeibnizWorkerCreator implements WorkerCreator {
 		LeibnizWorker leibnizWorker;
 		
 		if (lastIndex < n){
-			leibnizWorker = new LeibnizWorker(lastIndex + 1, lastIndex + 10000);
+			leibnizWorker = new LeibnizWorker(lastIndex + 1, lastIndex + slice);
 		} else {
 			leibnizWorker = new LeibnizWorker(lastIndex + 1, n);
 		}
-		lastIndex = lastIndex + 10000;
+		lastIndex = lastIndex + slice;
 		
 		return leibnizWorker;
 	}

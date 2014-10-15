@@ -1,5 +1,6 @@
 package com.tma.gbst.piexcercise;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import com.tma.gbst.piexcercise.formular.Formula;
@@ -47,10 +48,13 @@ public class App {
 		t1.start();
 		
 		System.out.print("PI is calculating. If you want cancel it please press Enter");
-		System.in.read();
-		if () {
-			formula.cancel();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		formula.cancel();
+		System.out.println(formula.getResult());
 	}
 
 }

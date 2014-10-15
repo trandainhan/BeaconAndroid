@@ -1,14 +1,12 @@
 package com.tma.gbst.piexcercise.formular.leibniz;
 
-import java.util.Scanner;
-
 import com.tma.gbst.piexcercise.formular.Formula;
 import com.tma.gbst.piexcercise.formular.Master;
 import com.tma.gbst.piexcercise.formular.Result;
 import com.tma.gbst.piexcercise.formular.WorkerCreator;
 
 /**
- * This  class define the leibeniz formular
+ * This  class define the leibniz formula
  * 
  * @author tdainhan
  * @version 1.0
@@ -16,13 +14,13 @@ import com.tma.gbst.piexcercise.formular.WorkerCreator;
  */
 public class LeibnizFormula  implements Formula {
 	
-	private static final String NAME = "Leibeniz Formular";
+	private static final String NAME = "Leibeniz Formula";
 	
 	private Master master;
 	private WorkerCreator workerCreator = new LeibnizWorkerCreator();
 	
 	/**
-	 * Construct a Leibeniz Formula
+	 * Construct a Leibniz Formula
 	 */
 	public LeibnizFormula(){
 		LeibnizResult leibnizResult = new LeibnizResult();
@@ -30,10 +28,10 @@ public class LeibnizFormula  implements Formula {
 	};
 
 	/**
-	 * Start to calculate pi number follow it's formular
+	 * Start to calculate pi number follow it's formula
 	 */
 	public void calculate() {
-		master.processing();
+		master.process();
 	}
 	
 	@Override
@@ -42,7 +40,7 @@ public class LeibnizFormula  implements Formula {
 	}
 	
 	/**
-	 * Stop to calculate pi number by this formular
+	 * Stop to calculate pi number by this formula
 	 */
 	public void cancel() {
 		master.shutdown();
@@ -57,7 +55,7 @@ public class LeibnizFormula  implements Formula {
 	}
 
 	/**
-	 * Get formular name
+	 * Get formula name
 	 */
 	public String getFormularName(){
 		return NAME;

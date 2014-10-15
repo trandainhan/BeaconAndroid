@@ -1,6 +1,6 @@
 package com.tma.gbst.piexcercise.formular;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -24,7 +24,7 @@ public class Master {
 	private volatile ScheduledThreadPoolExecutor executors;
 
 	// The result stores here
-	LinkedList<Future<Result>> futures;
+	ArrayList<Future<Result>> futures;
 
 	// The final value of Pi stored here
 	Result finalResult;
@@ -69,12 +69,12 @@ public class Master {
 	/**
 	 * <tt>Master</tt> use this to manage <tt>Worker</tt>, divide task to all
 	 * worker Using schedule thread pool to manage all task that running and get
-	 * result via <tt>Future</tt> in oderly
+	 * result via <tt>Future</tt> in orderly
 	 * 
 	 */
-	public void processing() {
+	public void process() {
 
-		futures = new LinkedList<Future<Result>>();
+		futures = new ArrayList<Future<Result>>();
 
 		// set maximum pool size equal to core pool size to make it become
 		// fixed-size thread pool
