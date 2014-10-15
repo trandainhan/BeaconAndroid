@@ -1,17 +1,15 @@
-package com.tma.gbst.syn.piexcercise.formular.leibniz;
+package com.tma.gbst.piexcercise.formular.leibniz;
 
-import com.tma.gbst.syn.piexcercise.formular.Worker;
+import com.tma.gbst.piexcercise.formular.Result;
+import com.tma.gbst.piexcercise.formular.Worker;
 
 
 public class LeibnizWorker implements Worker   {
 	
-	public final String CLASS_NAME = this.getClass().getSimpleName();
-	
 	private long begin;
 	private long end;
 	
-	
-	private LeibnizWorker(){};
+	public LeibnizWorker(){};
 	
 	public LeibnizWorker(long begin, long end){
 		this.begin = begin;
@@ -24,6 +22,11 @@ public class LeibnizWorker implements Worker   {
 
 	public void setEnd(long end) {
 		this.end = end;
+	}
+	
+	@Override
+	public long getEnd() {
+		return end;
 	}
 	
 	public double work(long begin, long end){
@@ -44,13 +47,10 @@ public class LeibnizWorker implements Worker   {
 		return result;
 	};
 
-	public Double call() throws Exception {
-		return work(begin, end);
-		
+	public Result call() throws Exception {
+		double pi = work(begin, end) *  4;
+		Result result = new LeibnizResult(pi, getEnd());
+		return result;
 	}
-
-	@Override
-	public Worker createWorker() {
-		return LeibnizWorker();
-	}
+	
 }

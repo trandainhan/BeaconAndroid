@@ -9,8 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.tma.gbst.syn.piexcercise.calculation.PiCalculation;
-import com.tma.gbst.syn.piexcercise.formular.leibniz.LeibnizFormula;
+import com.tma.gbst.piexcercise.calculation.PiCalculation;
+import com.tma.gbst.piexcercise.formular.leibniz.LeibnizFormula;
 
 public class PiCalculationTest {
 	
@@ -44,7 +44,7 @@ public class PiCalculationTest {
 	@Test
 	public void testStartCalculate() {
 		
-		PiCalculation.startCalculate();
+		PiCalculation.calculate();
 //		assertTrue(t.isAlive());
 		
 	}
@@ -52,8 +52,8 @@ public class PiCalculationTest {
 	@Test
 	public void testStopCalculate() {
 		Double a = 2.3;
-		Mockito.when(leibenizFormular.stopCalculate()).thenReturn(a);
-		assertEquals(a, PiCalculation.stopCalculate(), 0.0);
+		Mockito.when(leibenizFormular.cancel()).thenReturn(a);
+		assertEquals(a, PiCalculation.cancel(), 0.0);
 	}
 
 	@Test

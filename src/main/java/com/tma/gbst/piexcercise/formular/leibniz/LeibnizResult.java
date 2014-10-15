@@ -1,14 +1,21 @@
-package com.tma.gbst.syn.piexcercise.formular.leibniz;
+package com.tma.gbst.piexcercise.formular.leibniz;
 
-import com.tma.gbst.syn.piexcercise.formular.Result;
+import com.tma.gbst.piexcercise.formular.Result;
 
 public class LeibnizResult implements Result {
 	long n;
 	double pi = 0;
+	
+	public LeibnizResult(){};
+	
+	public LeibnizResult(double pi, long n) {
+		this.pi = pi;
+		this.n = n;
+	}
 
 	@Override
 	public String toString() {
-		return "PI =  with n = ";
+		return "PI = " + n + " with n = " + n;
 	}
 
 	@Override
@@ -20,7 +27,6 @@ public class LeibnizResult implements Result {
 				n = lr.getN();
 			}
 		}
-		
 	}
 
 	public long getN() {

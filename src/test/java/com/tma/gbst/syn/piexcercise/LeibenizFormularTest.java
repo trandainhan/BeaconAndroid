@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tma.gbst.syn.piexcercise.formular.leibniz.LeibnizFormula;
+import com.tma.gbst.piexcercise.formular.leibniz.LeibnizFormula;
 
 public class LeibenizFormularTest {
 	
@@ -54,7 +54,7 @@ public class LeibenizFormularTest {
 	public void testStopCalculate() throws Exception {
 		Field field = LeibnizFormula.class.getDeclaredField("isStop");
 		field.setAccessible(true);
-		leibenizFormular.stopCalculate();
+		leibenizFormular.cancel();
 		assertEquals("true", field.get(leibenizFormular).toString());
 	}
 

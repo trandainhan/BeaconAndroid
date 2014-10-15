@@ -1,4 +1,4 @@
-package com.tma.gbst.syn.piexcercise.formular;
+package com.tma.gbst.piexcercise.formular;
 
 import java.util.Scanner;
 
@@ -14,31 +14,20 @@ public interface Formula {
 	public void setParameters(String[] parameters);
 	
 	/**
-	 * get the point to help formular calculate
-	 */
-	public void getInput(Scanner scanner);
-	
-	/**
 	 * Starting to calculate pi number by this formular
 	 */
-	public void startCalculate();
+	public void calculate();
 	
 	/**
 	 * Stop calculate pi number
 	 */
-	public void stopCalculate();
+	public void cancel();
 	
 	/**
 	 * Return the result of pi number after calculate
 	 * 
 	 * @return double the result of pi 
 	 */
-	public double getResult();
-	
-//	/**
-//	 * Return the manager thread, that manage all thread 
-//	 * @return  Master  the manage thread 
-//	 */
-//	public Master getMasterThread();
+	public Result getResult();
 	
 }
