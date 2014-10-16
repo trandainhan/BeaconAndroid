@@ -2,15 +2,27 @@ package com.tma.gbst.piexcercise.formular.leibniz;
 
 import com.tma.gbst.piexcercise.formular.WorkerCreator;
 
+/**
+ * {@code LeibnizWorkerCreator} help to create a specific {@link LeibnizWorker }.
+ * @author tdainhan
+ *
+ */
 public class LeibnizWorkerCreator implements WorkerCreator {
 	
+	// The number that each thread calculate.
+	private int slice = 20000;
 	
-	private int slice = 10000;
-	private long n; 
+	// The number of series. 
+	private long n;
+	
+	// The last number was calculated.
 	private long lastIndex = -1;
 	
-	public LeibnizWorkerCreator(){};
-	
+	/**
+	 * Construct {@code LeibnizWorkerCreator} with the N number of leibniz formula.
+	 * 
+	 * @param n  the N number of leibniz formula.
+	 */
 	public LeibnizWorkerCreator(long n){
 		this.n = n;
 		if (slice > n){
@@ -18,10 +30,27 @@ public class LeibnizWorkerCreator implements WorkerCreator {
 		}
 	}
 	
+	/**
+	 * Set the N number of leibniz formula.
+	 * 
+	 * @param n  the N number of leibniz formula.
+	 */
 	public void setN(long n){
 		this.n = n;
 	}
 	
+	/**
+	 * Set the slice the number that each thread calculate.
+	 * 
+	 * @param slice  the number that each thread calculate.
+	 */
+	public void setSlice(int slice){
+		this.slice = slice;
+	}
+	
+	/**
+	 * Create {@link LeibnizWorker}.
+	 */
 	public LeibnizWorker createNextWorker() {
 		LeibnizWorker leibnizWorker = null;
 		

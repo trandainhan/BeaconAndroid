@@ -6,12 +6,12 @@ import com.tma.gbst.piexcercise.formular.Formula;
 import com.tma.gbst.piexcercise.formular.leibniz.LeibnizFormula;
 
 /**
- * <h1>Pi Calculation Program</h1> This program was created to calculate the
- * approximate pi number
+ * <h1>Pi Calculation Program</h1> 
+ * This program was created to calculate the approximate pi number.
  * 
  * Provide user calculate Pi number as much precise as they want the depend on
  * the time program run, when this program start to calculate, it also give an
- * option for user stop calculating at any time by pressing enter key to stop
+ * option for user stop calculating at any time by pressing enter key to stop.
  * 
  * @author tdainhan
  * @version 1.0
@@ -22,8 +22,7 @@ public class App {
 
 	
 	/**
-	 * This is entry point to calculate pi number, calculate and decide whether
-	 * or not continue calculating again
+	 * This is entry point to calculate pi number, 
 	 * 
 	 * 
 	 * @param args
@@ -32,6 +31,7 @@ public class App {
 	public static void main(final String[] args) {
 		
 		if (!isParaValid(args)){
+			System.out.println("Invalid input.");
 			return;
 		}
 
@@ -42,16 +42,18 @@ public class App {
 			public void run() {
 				
 				formula.setParameters(args);
-				
+				long startTime = System.currentTimeMillis();
 				formula.calculate();
 				
-				System.out.println(formula.getResult());		
+				System.out.println(formula.getResult());
+				long stopTime = System.currentTimeMillis();
+				System.out.println("Time taken: " + (stopTime - startTime) + "ms");
 				System.exit(0);
 			}
 		});
 		t1.start();
 		
-		System.out.println("PI is calculating. If you want cancel it please press Enter");
+		System.out.println("PI is calculating.... If you want cancel it please press Enter.");
 		try {
 			System.in.read();
 		} catch (IOException e) {
@@ -63,8 +65,12 @@ public class App {
 	private static boolean isParaValid(String[] args){
 		String arg = args[0];
 		try{
-			Long.parseLong(arg);
-			return true;
+			long n = Long.parseLong(arg);
+			if (n > Long.MAX_VALUE/2 - 1){
+				return false;
+			} else {
+				return true;
+			}
 		} catch (Exception e){
 			return false;
 		}

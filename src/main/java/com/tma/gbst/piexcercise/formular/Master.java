@@ -1,8 +1,6 @@
 package com.tma.gbst.piexcercise.formular;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -10,39 +8,34 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Responsible for receive the calculation order. Manage meta data, divide task
- * to <tt>Worker</tt> and get result from it
+ * to {@code Worker} and get result from it.
  * 
- * @author nhantran
+ * Using {@code ScheduledThreadPoolExecutor} to manage thread.
+ * 
+ * @author tdainhan
  *
  */
 public class Master {
 
-	public final String CLASS_NAME = this.getClass().getSimpleName();
-
-
 	// using scheduled thread pool executor to make sure all task execute in
-	// orderly
+	// orderly.
 	private volatile ScheduledThreadPoolExecutor executors;
 
-	// The result stores here
+	// The result stores here.
 	ArrayList<Future<Result>> futures;
 
-	// The final value of Pi stored here
+	// The final value of Pi stored here.
 	Result finalResult;
 
+	// worker creator help to create a worker.
 	WorkerCreator workerCreator;
 
 	/**
-	 * Construct <tt>Master</tt> with no parameter
-	 */
-	public Master() {
-	}
-
-	/**
-	 * Construct <tt>Master</tt> with the kind of worker that run the task
+	 * Construct a {@code Master} with given initial parameters. 
 	 * 
-	 * @param kindOfWorker
-	 *            the kind of worker that run the task
+	 * @param workerCreator  the {@code WorkerCretor} help to create {@code Worker}
+	 * @param finalResult  the result instances responsible for get result after calculating 
+	 * that was passed into {@code Master} class.
 	 */
 	public Master(WorkerCreator workerCreator, Result finalResult) {
 		this.workerCreator = workerCreator;
@@ -50,30 +43,36 @@ public class Master {
 	}
 
 	/**
-	 * get the the result of pi value after calculating.
+	 * Get the the result of pi value after calculating.
 	 * 
-	 * @return double the result of pi value
+	 * Iterating {@code ArrayList} futures, check each task whether done or not
+	 * then get the result.
+	 * 
+	 * @return Result the result of calculating.
 	 */
 	public Result getResult() {
 		for (Future<Result> fu : futures) {
-			if (!fu.isCancelled() && fu.isDone()){
+			if (fu.isDone() && !fu.isCancelled()) {
 				try {
 					finalResult.add(fu.get());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
 					e.printStackTrace();
-				}	
+				}
 			}
-			
 		}
 		return finalResult;
 	}
 
 	/**
-	 * <tt>Master</tt> use this to manage <tt>Worker</tt>, divide task to all
-	 * worker Using schedule thread pool to manage all task that running and get
-	 * result via <tt>Future</tt> in orderly
+	 * {@code Master} use this to divide task to all worker. Using
+	 * {@link ScheduledThreadPoolExecutor} to manage all task that running and
+	 * get result via a {@link List} of {@link Future}.
+	 * 
+	 * <p>
+	 * Finding the number of available processor to set the number of
+	 * thread that run simultaneously. Aiming to get the best performance.
 	 * 
 	 */
 	public void process() {
@@ -88,9 +87,9 @@ public class Master {
 
 		Worker worker;
 		while ((worker = workerCreator.createNextWorker()) != null) {
-			if (!executors.isShutdown()){
+			if (!executors.isShutdown()) {
 				Future<Result> future = executors.submit(worker);
-				futures.add(future);				
+				futures.add(future);
 			} else {
 				break;
 			}
@@ -104,7 +103,9 @@ public class Master {
 	}
 
 	/**
-	 * shut down all task, after doing this, no task will be submit anymore
+	 * Attempt to shut down all task, after doing this, we wait for actively
+	 * tasks execute, all task on waiting list will be canceled and no task can
+	 * submit anymore.
 	 */
 	public void shutdown() {
 		executors.shutdownNow();

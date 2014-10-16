@@ -16,6 +16,7 @@ public class LeibnizFormula  implements Formula {
 	
 	private static final String NAME = "Leibeniz Formula";
 	
+	// the number of series.
 	private long count;
 	
 	private Master master;
@@ -31,11 +32,15 @@ public class LeibnizFormula  implements Formula {
 	 */
 	public void calculate() {
 		LeibnizResult leibnizResult = new LeibnizResult();
+		
 		workerCreator = new LeibnizWorkerCreator(count);
 		master = new Master(workerCreator, leibnizResult);
 		master.process();
 	}
 	
+	/**
+	 * Get parameters for formula.
+	 */
 	@Override
 	public void setParameters(String[] parameters) {
 		String para = parameters[0];

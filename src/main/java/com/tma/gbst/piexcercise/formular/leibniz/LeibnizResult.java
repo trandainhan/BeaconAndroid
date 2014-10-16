@@ -2,23 +2,43 @@ package com.tma.gbst.piexcercise.formular.leibniz;
 
 import com.tma.gbst.piexcercise.formular.Result;
 
+/**
+ * The Leibniz Result format
+ * 
+ * @author tdainhan
+ *
+ */
 public class LeibnizResult implements Result {
 	
 	long n;
 	double pi = 0;
 	
+	/**
+	 * Construct {@code LeibnizResult} without any parameters.
+	 */
 	public LeibnizResult(){};
 	
+	/**
+	 * Construct {@code LeibnizResult} with given parameters.
+	 * @param pi
+	 * @param n
+	 */
 	public LeibnizResult(double pi, long n) {
 		this.pi = pi;
 		this.n = n;
 	}
 
+	/**
+	 * Print out the final pi number was calculated with the current N number.
+	 */
 	@Override
 	public String toString() {
 		return "PI = " + pi + " with n = " + n;
 	}
 
+	/**
+	 * Define the way to accumulate the result when another result was finished calculating.
+	 */
 	@Override
 	public void add(Result r) {
 		if (r instanceof LeibnizResult) {
