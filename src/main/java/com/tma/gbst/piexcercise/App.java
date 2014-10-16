@@ -63,6 +63,8 @@ public class App {
 	}
 	
 	private static boolean isParaValid(String[] args){
+		if (args == null)
+			return false;
 		String arg = args[0];
 		try{
 			long n = Long.parseLong(arg);

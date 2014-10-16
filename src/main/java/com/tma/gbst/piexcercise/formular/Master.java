@@ -19,7 +19,7 @@ public class Master {
 
 	// using scheduled thread pool executor to make sure all task execute in
 	// orderly.
-	private volatile ScheduledThreadPoolExecutor executors;
+	private ScheduledThreadPoolExecutor executors;
 
 	// The result stores here.
 	ArrayList<Future<Result>> futures;
@@ -60,6 +60,8 @@ public class Master {
 				} catch (ExecutionException e) {
 					e.printStackTrace();
 				}
+			} else {
+				break;
 			}
 		}
 		return finalResult;
@@ -87,19 +89,23 @@ public class Master {
 
 		Worker worker;
 		while ((worker = workerCreator.createNextWorker()) != null) {
-			if (!executors.isShutdown()) {
-				Future<Result> future = executors.submit(worker);
-				futures.add(future);
-			} else {
-				break;
+			synchronized (this) {
+				if (!executors.isShutdown()) {
+					Future<Result> future = executors.submit(worker);
+					futures.add(future);
+				} else {
+					break;
+				}
 			}
 		}
 		executors.shutdown();
+		System.out.println("before shutdown");
 		try {
 			executors.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("after shutdown");
 	}
 
 	/**
@@ -108,12 +114,16 @@ public class Master {
 	 * submit anymore.
 	 */
 	public void shutdown() {
-		executors.shutdownNow();
+		synchronized (this) {
+			executors.shutdownNow();
+		}
+		System.out.println("Before shutdownNow");
 		try {
 			executors.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("after shutdownNow");
 	}
 
 }
