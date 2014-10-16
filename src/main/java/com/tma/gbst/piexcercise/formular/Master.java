@@ -99,13 +99,11 @@ public class Master {
 			}
 		}
 		executors.shutdown();
-		System.out.println("before shutdown");
 		try {
 			executors.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("after shutdown");
 	}
 
 	/**
@@ -117,13 +115,11 @@ public class Master {
 		synchronized (this) {
 			executors.shutdownNow();
 		}
-		System.out.println("Before shutdownNow");
 		try {
 			executors.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("after shutdownNow");
 	}
 
 }
