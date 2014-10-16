@@ -13,6 +13,9 @@ public class LeibnizWorkerCreator implements WorkerCreator {
 	
 	public LeibnizWorkerCreator(long n){
 		this.n = n;
+		if (slice > n){
+			slice = (int) n;
+		}
 	}
 	
 	public void setN(long n){
@@ -20,9 +23,12 @@ public class LeibnizWorkerCreator implements WorkerCreator {
 	}
 	
 	public LeibnizWorker createNextWorker() {
-		LeibnizWorker leibnizWorker;
+		LeibnizWorker leibnizWorker = null;
 		
-		if (lastIndex < n){
+		if (lastIndex >= n)
+			return leibnizWorker;
+		
+		if (lastIndex + slice < n){
 			leibnizWorker = new LeibnizWorker(lastIndex + 1, lastIndex + slice);
 		} else {
 			leibnizWorker = new LeibnizWorker(lastIndex + 1, n);

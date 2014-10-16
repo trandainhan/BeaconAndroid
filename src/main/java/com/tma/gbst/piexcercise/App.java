@@ -1,7 +1,6 @@
 package com.tma.gbst.piexcercise;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import com.tma.gbst.piexcercise.formular.Formula;
 import com.tma.gbst.piexcercise.formular.leibniz.LeibnizFormula;
@@ -31,30 +30,44 @@ public class App {
 	 * @return nothing
 	 */
 	public static void main(final String[] args) {
-
 		
+		if (!isParaValid(args)){
+			return;
+		}
+
 		final Formula formula = new LeibnizFormula();
 		Thread t1 = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
+				
 				formula.setParameters(args);
 				
 				formula.calculate();
 				
-				System.out.print(formula.getResult());				
+				System.out.println(formula.getResult());		
+				System.exit(0);
 			}
 		});
 		t1.start();
 		
-		System.out.print("PI is calculating. If you want cancel it please press Enter");
+		System.out.println("PI is calculating. If you want cancel it please press Enter");
 		try {
 			System.in.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		formula.cancel();
-		System.out.println(formula.getResult());
+	}
+	
+	private static boolean isParaValid(String[] args){
+		String arg = args[0];
+		try{
+			Long.parseLong(arg);
+			return true;
+		} catch (Exception e){
+			return false;
+		}
 	}
 
 }

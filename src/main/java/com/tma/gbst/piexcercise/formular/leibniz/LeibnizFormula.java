@@ -16,27 +16,30 @@ public class LeibnizFormula  implements Formula {
 	
 	private static final String NAME = "Leibeniz Formula";
 	
+	private long count;
+	
 	private Master master;
-	private WorkerCreator workerCreator = new LeibnizWorkerCreator();
+	private WorkerCreator workerCreator;
 	
 	/**
 	 * Construct a Leibniz Formula
 	 */
-	public LeibnizFormula(){
-		LeibnizResult leibnizResult = new LeibnizResult();
-		master = new Master(workerCreator, leibnizResult);
-	};
+	public LeibnizFormula(){};
 
 	/**
 	 * Start to calculate pi number follow it's formula
 	 */
 	public void calculate() {
+		LeibnizResult leibnizResult = new LeibnizResult();
+		workerCreator = new LeibnizWorkerCreator(count);
+		master = new Master(workerCreator, leibnizResult);
 		master.process();
 	}
 	
 	@Override
 	public void setParameters(String[] parameters) {
-		
+		String para = parameters[0];
+		this.count = Long.parseLong(para);
 	}
 	
 	/**

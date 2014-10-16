@@ -1,6 +1,8 @@
 package com.tma.gbst.piexcercise.formular;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -17,7 +19,6 @@ public class Master {
 
 	public final String CLASS_NAME = this.getClass().getSimpleName();
 
-	private int nThreads;
 
 	// using scheduled thread pool executor to make sure all task execute in
 	// orderly
@@ -55,13 +56,16 @@ public class Master {
 	 */
 	public Result getResult() {
 		for (Future<Result> fu : futures) {
-			try {
-				finalResult.add(fu.get());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
+			if (!fu.isCancelled() && fu.isDone()){
+				try {
+					finalResult.add(fu.get());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}	
 			}
+			
 		}
 		return finalResult;
 	}
@@ -78,15 +82,20 @@ public class Master {
 
 		// set maximum pool size equal to core pool size to make it become
 		// fixed-size thread pool
-		executors = new ScheduledThreadPoolExecutor(nThreads);
-		executors.setMaximumPoolSize(nThreads);
+		int cores = Runtime.getRuntime().availableProcessors();
+		executors = new ScheduledThreadPoolExecutor(cores);
+		executors.setMaximumPoolSize(cores);
 
 		Worker worker;
 		while ((worker = workerCreator.createNextWorker()) != null) {
-			Future<Result> future = executors.submit(worker);
-			futures.add(future);
+			if (!executors.isShutdown()){
+				Future<Result> future = executors.submit(worker);
+				futures.add(future);				
+			} else {
+				break;
+			}
 		}
-
+		executors.shutdown();
 		try {
 			executors.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
@@ -98,15 +107,12 @@ public class Master {
 	 * shut down all task, after doing this, no task will be submit anymore
 	 */
 	public void shutdown() {
-		executors.shutdown();
-	}
-
-	/**
-	 * 
-	 * @return <tt>true</tt> if all task have completed following shutdown
-	 */
-	public boolean isTerminated() {
-		return executors.isTerminated();
+		executors.shutdownNow();
+		try {
+			executors.awaitTermination(120, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

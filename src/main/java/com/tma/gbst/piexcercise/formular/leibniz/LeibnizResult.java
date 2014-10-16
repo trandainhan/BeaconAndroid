@@ -16,7 +16,7 @@ public class LeibnizResult implements Result {
 
 	@Override
 	public String toString() {
-		return "PI = " + n + " with n = " + n;
+		return "PI = " + pi + " with n = " + n;
 	}
 
 	@Override
