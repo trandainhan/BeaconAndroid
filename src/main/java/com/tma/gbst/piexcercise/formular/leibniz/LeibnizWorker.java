@@ -1,5 +1,7 @@
 package com.tma.gbst.piexcercise.formular.leibniz;
 
+import java.util.concurrent.Callable;
+
 import com.tma.gbst.piexcercise.formular.Result;
 import com.tma.gbst.piexcercise.formular.Worker;
 
@@ -47,7 +49,6 @@ public class LeibnizWorker implements Worker   {
 	/**
 	 * Get the end number of series that this {@code LeibnizWorker} instance do.
 	 */
-	@Override
 	public long getEnd() {
 		return end;
 	}
@@ -56,7 +57,7 @@ public class LeibnizWorker implements Worker   {
 	 * Main function of this class. This method will calculate base on the begin and end number
 	 * following this specific formula. 
 	 */
-	public double work(long begin, long end){
+	private double work(){
 		double result = 0.0;
 		
 		long denominator = 1 + 2*begin;
@@ -79,7 +80,7 @@ public class LeibnizWorker implements Worker   {
 	 * the result will be return to the {@link Future} the manage this task.
 	 */
 	public Result call() throws Exception {
-		double pi = work(begin, end) *  4;
+		double pi = work() *  4;
 		Result result = new LeibnizResult(pi, getEnd());
 		return result;
 	}

@@ -22,13 +22,13 @@ public class Master {
 	private ScheduledThreadPoolExecutor executors;
 
 	// The result stores here.
-	ArrayList<Future<Result>> futures;
+	private ArrayList<Future<Result>> futures;
 
 	// The final value of Pi stored here.
-	Result finalResult;
+	private Result finalResult;
 
 	// worker creator help to create a worker.
-	WorkerCreator workerCreator;
+	private WorkerCreator workerCreator;
 
 	/**
 	 * Construct a {@code Master} with given initial parameters. 

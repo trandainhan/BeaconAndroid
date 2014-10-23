@@ -28,6 +28,7 @@ public class LeibnizWorkerCreator implements WorkerCreator {
 		if (slice > n){
 			slice = (int) n;
 		}
+		if (slice == 0) slice = 1;
 	}
 	
 	/**

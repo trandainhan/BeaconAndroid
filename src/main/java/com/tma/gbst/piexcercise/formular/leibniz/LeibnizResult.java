@@ -29,14 +29,6 @@ public class LeibnizResult implements Result {
 	}
 
 	/**
-	 * Print out the final pi number was calculated with the current N number.
-	 */
-	@Override
-	public String toString() {
-		return "PI = " + pi + " with n = " + n;
-	}
-
-	/**
 	 * Define the way to accumulate the result when another result was finished calculating.
 	 */
 	@Override
@@ -64,6 +56,14 @@ public class LeibnizResult implements Result {
 
 	public void setPi(double pi) {
 		this.pi = pi;
+	}
+	
+	/**
+	 * Print out the final pi number was calculated with the current N number.
+	 */
+	@Override
+	public String toString() {
+		return "PI = " + pi + " with n = " + n;
 	}
 	
 }
