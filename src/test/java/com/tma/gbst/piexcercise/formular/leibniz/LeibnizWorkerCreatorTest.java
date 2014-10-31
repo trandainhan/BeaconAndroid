@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.tma.gbst.piexcercise.formular.Worker;
+import com.tma.gbst.piexcercise.formula.Worker;
 
 public class LeibnizWorkerCreatorTest {
 

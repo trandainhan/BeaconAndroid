@@ -1,6 +1,6 @@
 package com.tma.gbst.piexcercise.formular.leibniz;
 
-import com.tma.gbst.piexcercise.formular.WorkerCreator;
+import com.tma.gbst.piexcercise.formula.WorkerCreator;
 
 /**
  * {@code LeibnizWorkerCreator} help to create a specific {@link LeibnizWorker }.

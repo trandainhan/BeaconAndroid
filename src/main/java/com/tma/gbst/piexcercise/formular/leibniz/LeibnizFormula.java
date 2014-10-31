@@ -1,9 +1,9 @@
 package com.tma.gbst.piexcercise.formular.leibniz;
 
-import com.tma.gbst.piexcercise.formular.Formula;
-import com.tma.gbst.piexcercise.formular.Master;
-import com.tma.gbst.piexcercise.formular.Result;
-import com.tma.gbst.piexcercise.formular.WorkerCreator;
+import com.tma.gbst.piexcercise.formula.Formula;
+import com.tma.gbst.piexcercise.formula.Master;
+import com.tma.gbst.piexcercise.formula.Result;
+import com.tma.gbst.piexcercise.formula.WorkerCreator;
 
 /**
  * This  class define the leibniz formula

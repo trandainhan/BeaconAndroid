@@ -1,6 +1,6 @@
 package com.tma.gbst.piexcercise.formular.leibniz;
 
-import com.tma.gbst.piexcercise.formular.Result;
+import com.tma.gbst.piexcercise.formula.Result;
 
 /**
  * The Leibniz Result format

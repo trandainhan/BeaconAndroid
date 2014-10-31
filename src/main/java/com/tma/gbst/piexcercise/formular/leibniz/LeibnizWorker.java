@@ -2,8 +2,8 @@ package com.tma.gbst.piexcercise.formular.leibniz;
 
 import java.util.concurrent.Callable;
 
-import com.tma.gbst.piexcercise.formular.Result;
-import com.tma.gbst.piexcercise.formular.Worker;
+import com.tma.gbst.piexcercise.formula.Result;
+import com.tma.gbst.piexcercise.formula.Worker;
 
 /**
  * The {@code LeibnizWorker} are responsible for calculating for Leibniz formula. 

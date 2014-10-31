@@ -2,7 +2,7 @@ package com.tma.gbst.piexcercise;
 
 import java.io.IOException;
 
-import com.tma.gbst.piexcercise.formular.Formula;
+import com.tma.gbst.piexcercise.formula.Formula;
 import com.tma.gbst.piexcercise.formular.leibniz.LeibnizFormula;
 
 /**
