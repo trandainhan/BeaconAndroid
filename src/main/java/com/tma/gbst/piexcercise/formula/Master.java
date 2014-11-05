@@ -19,7 +19,7 @@ public class Master {
 
 	// using scheduled thread pool executor to make sure all task execute in
 	// orderly.
-	private ScheduledThreadPoolExecutor executors;
+	private ScheduledThreadPoolExecutor executor;
 
 	// The result stores here.
 	private ArrayList<Future<Result>> futures;
@@ -84,23 +84,23 @@ public class Master {
 		// set maximum pool size equal to core pool size to make it become
 		// fixed-size thread pool
 		int cores = Runtime.getRuntime().availableProcessors();
-		executors = new ScheduledThreadPoolExecutor(cores);
-		executors.setMaximumPoolSize(cores);
+		executor = new ScheduledThreadPoolExecutor(cores);
+		executor.setMaximumPoolSize(cores);
 
 		Worker worker;
 		while ((worker = workerCreator.createNextWorker()) != null) {
 			synchronized (this) {
-				if (!executors.isShutdown()) {
-					Future<Result> future = executors.submit(worker);
+				if (!executor.isShutdown()) {
+					Future<Result> future = executor.submit(worker);
 					futures.add(future);
 				} else {
 					break;
 				}
 			}
 		}
-		executors.shutdown();
+		executor.shutdown();
 		try {
-			executors.awaitTermination(120, TimeUnit.MINUTES);
+			executor.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -113,10 +113,10 @@ public class Master {
 	 */
 	public void shutdown() {
 		synchronized (this) {
-			executors.shutdownNow();
+			executor.shutdownNow();
 		}
 		try {
-			executors.awaitTermination(120, TimeUnit.MINUTES);
+			executor.awaitTermination(120, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
