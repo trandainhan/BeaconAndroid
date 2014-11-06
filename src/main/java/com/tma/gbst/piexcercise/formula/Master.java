@@ -1,9 +1,15 @@
 package com.tma.gbst.piexcercise.formula;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,12 +23,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class Master {
 
-	// using scheduled thread pool executor to make sure all task execute in
-	// orderly.
-	private ScheduledThreadPoolExecutor executor;
+	private ThreadPoolExecutor executor;
 
 	// The result stores here.
-	private ArrayList<Future<Result>> futures;
+	private LinkedList<Future<Result>> futures;
 
 	// The final value of Pi stored here.
 	private Result finalResult;
@@ -69,7 +73,7 @@ public class Master {
 
 	/**
 	 * {@code Master} use this to divide task to all worker. Using
-	 * {@link ScheduledThreadPoolExecutor} to manage all task that running and
+	 * {@link ThreadPoolExecutor} to manage all task that running and
 	 * get result via a {@link List} of {@link Future}.
 	 * 
 	 * <p>
@@ -79,14 +83,9 @@ public class Master {
 	 */
 	public void process() {
 
-		futures = new ArrayList<Future<Result>>();
-
-		// set maximum pool size equal to core pool size to make it become
-		// fixed-size thread pool
-		int cores = Runtime.getRuntime().availableProcessors();
-		executor = new ScheduledThreadPoolExecutor(cores);
-		executor.setMaximumPoolSize(cores);
-
+		futures = new LinkedList<Future<Result>>();
+		int nThreads = Runtime.getRuntime().availableProcessors();
+		executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(nThreads);
 		Worker worker;
 		while ((worker = workerCreator.createNextWorker()) != null) {
 			synchronized (this) {

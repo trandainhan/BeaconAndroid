@@ -10,7 +10,7 @@ import com.tma.gbst.piexcercise.formula.WorkerCreator;
 public class LeibnizWorkerCreator implements WorkerCreator {
 	
 	// The number that each thread calculate.
-	private int slice = 20000;
+	private long slice = 20000;
 	
 	// The number of series. 
 	private long n;
